@@ -37,7 +37,7 @@ void Robot::update(){
     uint8_t angle = 90;
 
     if(direction[0]!=0){
-        angle = static_cast<uint8_t>(round(atan(max(direction[1],static_cast<short>(0))/direction[0]) * (180/PI)));
+        angle = static_cast<uint8_t>(round(atan(max(direction[1],static_cast<short>(0))/abs(direction[0])) * (180/PI)));
     }
     updateLegPositions(left_front, abductor, angle);
 }
