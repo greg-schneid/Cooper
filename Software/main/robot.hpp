@@ -7,6 +7,7 @@
 
 #include <cstdint>
 #include <stdint.h>
+#include <math.h>
 
 #include "leg.hpp"
 #include "constants.hpp"
@@ -20,9 +21,11 @@ class Robot{
     public:
         Robot(short (&stickPositions)[4], bool (&buttons)[4]);
         ~Robot();
-        void updateLegPositions(leg legID, servoType servo, uint8_t angle);
+        void update();
 
     private:
+        void updateLegPositions(leg legID, servoType servo, uint8_t angle);
+
         Leg leftRear; //ID: 0
         Leg rightRear; //ID: 1
         Leg leftFront; //ID: 2

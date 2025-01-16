@@ -68,5 +68,5 @@ void BluetoothController::update(){
     controllerStickPositions[2] = myController->axisRX();
     controllerStickPositions[3] = myController->axisRY();
 
-    //myController.dumpInfo();
+    dumpInfo();
 }

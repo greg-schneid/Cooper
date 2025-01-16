@@ -28,6 +28,20 @@ Robot::~Robot(){
     controllerButtons = nullptr;
 }
 
+void Robot::update(){
+    
+    //short* direction;
+    //bool* controllerButtons;
+
+    //Angle Calculation Outlined here: https://www.desmos.com/calculator/tbmkiml4pm
+    uint8_t angle = 90;
+
+    if(direction[0]!=0){
+        angle = static_cast<uint8_t>(round(atan(max(direction[1],static_cast<short>(0))/direction[0]) * (180/PI)));
+    }
+    updateLegPositions(left_front, abductor, angle);
+}
+
 void Robot::updateLegPositions(leg legID, servoType servo, uint8_t angle){
     switch(legID){
         case left_front:
