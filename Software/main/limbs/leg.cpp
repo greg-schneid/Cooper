@@ -11,7 +11,6 @@ void Leg::setServoAngle(servoType servo, uint8_t angle){
     
     //uint16_t pulse = static_cast<uint16_t>(angle/(180.0)*(SERVOMAX-SERVOMIN));
     uint16_t pulse = SERVOMIN + (angle * (SERVOMAX - SERVOMIN)) / 180;
-
     
     pwm.setPWM(servoPins[servo], 0, pulse);
 }

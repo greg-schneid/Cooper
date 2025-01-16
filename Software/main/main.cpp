@@ -9,9 +9,6 @@
 #include "controller.hpp"
 #include "robot.hpp"
 
-#define SDA_PIN 21 // Default SDA pin for ESP32
-#define SCL_PIN 22 // Default SCL pin for ESP32
-
 // Declare any global variables here
 Controller controller;
 Robot robot(&controller.controllerStickPositions, &controller.buttons);
@@ -29,7 +26,7 @@ void loop();
 void setup() {
     Serial.begin(115200);
     setupBluetooth();
-    setupServoDriver();=
+    setupServoDriver();
 }
 
 // The loop function runs continuously after setup
@@ -38,10 +35,6 @@ void loop() {
     bool dataUpdated = BP32.update();
     if(dataUpdated)
         controller.update();
-    
-    if(DUMP_CONTROLLER_INFO)
-        controller.dumpInfo();
-
     delay(150);
 }
 
