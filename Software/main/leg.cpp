@@ -1,7 +1,8 @@
-#include <leg.hpp>
+#include "leg.hpp"
 
-Leg::Leg(uint8_t servo[3], Adafruit_PWMServoDriver &pwmDriver):
-    servoPins(servo), pwm(pwmDriver)
+Leg::Leg(const uint8_t servo[3], Adafruit_PWMServoDriver &pwmDriver):
+    servoPins{servo[0], servo[1], servo[2]},
+    pwm(pwmDriver)
 {};
 
 void Leg::setServoAngle(servoType servo, uint8_t angle){

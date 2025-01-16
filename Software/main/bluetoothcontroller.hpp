@@ -5,11 +5,11 @@
 #include <Bluepad32.h>
 
 //Class for Handling Interfacing with controller
-class Controller{
+class BluetoothController{
     public:
-        Controller();
+        BluetoothController();
         void connect(ControllerPtr ctl);
-        void disconnect();
+        void disconnect(ControllerPtr ctl);
         void update();
         void dumpInfo();
 
@@ -21,6 +21,6 @@ class Controller{
 
     private:
         ControllerPtr myController = nullptr; //Verify if this needs to be here
-}
+};
 
 #endif

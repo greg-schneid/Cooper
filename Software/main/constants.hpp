@@ -1,6 +1,9 @@
-#ifndef ENUMS_H
+#ifndef CONSTANTS_H
 
-#define ENUMS_H
+#define CONSTANTS_H
+
+#define SDA_PIN 21 // Default SDA pin for ESP32
+#define SCL_PIN 22 // Default SCL pin for ESP32
 
 enum leg{
     left_rear = 0,
@@ -15,4 +18,4 @@ enum servoType{
     knee = 2
 };
 
-#endif //ENUMS_H
+#endif //CONSTANTS_H

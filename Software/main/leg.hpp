@@ -4,8 +4,9 @@
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
 #include <cstdint>
+#include <stdint.h>
 
-#include "../enums.hpp"
+#include "constants.hpp"
 
 // Define minimum and maximum pulse lengths
 #define SERVOMIN 150 // Minimum pulse length count (out of 4096)
@@ -13,12 +14,12 @@
 
 class Leg{
     public: 
-        Leg(uint8_t servo[3], Adafruit_PWMServoDriver &pwmDriver);
+        Leg(const uint8_t servo[3], Adafruit_PWMServoDriver &pwmDriver);
         void setServoAngle(servoType servo, uint8_t angle);
         
     private:
-        uint8_t servoPins[3];
+        const uint8_t servoPins[3];
         Adafruit_PWMServoDriver &pwm;
-}
+};
 
 #endif

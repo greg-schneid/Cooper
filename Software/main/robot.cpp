@@ -1,12 +1,12 @@
 #include "robot.hpp"
 
-Robot::Robot(short (&stickPositions)[4], bool(&buttons)[4])
+Robot::Robot(short (&stickPositions)[4], bool (&buttons)[4])
     : direction(stickPositions), 
     controllerButtons(buttons),
-    leftRear(leftRearPins, &pwm),
-    rightRear(rightRearPins, &pwm),
-    leftFront(leftFrontPins, &pwm),
-    rightFront(rightFrontPins, &pwm)
+    leftRear(leftRearPins, pwm),
+    rightRear(rightRearPins, pwm),
+    leftFront(leftFrontPins, pwm),
+    rightFront(rightFrontPins, pwm)
 {
     Serial.println("Initializing PCA9685 Servo Controller...");
 
@@ -23,7 +23,12 @@ Robot::Robot(short (&stickPositions)[4], bool(&buttons)[4])
     delay(10);
 }
 
-Robot::updateLegPositions(leg legID, servoType servo, uint8_t angle){
+Robot::~Robot(){
+    direction = nullptr;
+    controllerButtons = nullptr;
+}
+
+void Robot::updateLegPositions(leg legID, servoType servo, uint8_t angle){
     switch(legID){
         case left_front:
             leftFront.setServoAngle(servo, angle);
@@ -39,7 +44,7 @@ Robot::updateLegPositions(leg legID, servoType servo, uint8_t angle){
             break;
         default:
             //Invalid Leg ID
-            Serial.println("Invalid Leg ID")
+            Serial.println("Invalid Leg ID");
             break;
     }
 }
