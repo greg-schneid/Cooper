@@ -59,10 +59,10 @@ Controller::update(){
     buttons[2] = myController->x; //Square
     buttons[3] = myController->y; //Triangle
 
-    controllerStickPosition[0] = myController->axisX();
-    controllerStickPosition[1] = myController->axisY();
-    controllerStickPosition[2] = myController->axisRX();
-    controllerStickPosition[3] = myController->axisRY();
+    controllerStickPositions[0] = myController->axisX();
+    controllerStickPositions[1] = myController->axisY();
+    controllerStickPositions[2] = myController->axisRX();
+    controllerStickPositions[3] = myController->axisRY();
 }
 
 // Arduino setup function. Runs in CPU 1

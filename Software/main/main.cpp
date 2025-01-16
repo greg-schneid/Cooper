@@ -1,27 +1,35 @@
 // Include the Arduino header file for core functionality
 #include <Arduino.h>
-#inlcude <Bluepad32.h>
+#include <Bluepad32.h>
+#include <Wire.h>
+#include <Adafruit_PWMServoDriver.h>
+
 #include <cstdint>
 
 #include "controller.hpp"
+#include "robot.hpp"
+
+#define SDA_PIN 21 // Default SDA pin for ESP32
+#define SCL_PIN 22 // Default SCL pin for ESP32
 
 // Declare any global variables here
 Controller controller;
-const bool DUMP_CONTROLLER_INFO = false;
+Robot robot(&controller.controllerStickPositions, &controller.buttons);
 
+const bool DUMP_CONTROLLER_INFO = false;
 
 // Function prototypes (optional but good practice)
 void setupBluetooth();
+void setupServoDriver();
 
 void setup();
 void loop();
-
 
 // The setup function runs once when the device is powered on or reset
 void setup() {
     Serial.begin(115200);
     setupBluetooth();
-    
+    setupServoDriver();=
 }
 
 // The loop function runs continuously after setup
@@ -53,4 +61,20 @@ void setupBluetooth(){
     // - Second one, which is a "virtual device", is a mouse.
     // By default, it is disabled.
     BP32.enableVirtualDevice(false);
+}
+
+void setupServoDriver(){
+    Serial.println("Initializing PCA9685 Servo Controller...");
+
+    // Initialize I2C communication with custom SDA and SCL pins
+    I2Cbus.begin(SDA_PIN, SCL_PIN, 100000); // 100kHz I2C frequency
+
+    // Initialize the PCA9685 using the I2Cbus instance
+    pwm.begin();
+
+    // Set the PWM frequency to 50 Hz (standard for servos)
+    pwm.setPWMFreq(50);
+
+    // Small delay to allow settings to take effect
+    delay(10);
 }
