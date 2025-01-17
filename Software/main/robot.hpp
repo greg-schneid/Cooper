@@ -22,6 +22,7 @@ class Robot{
         Robot(short (&stickPositions)[4], bool (&buttons)[4]);
         ~Robot();
         void update();
+        void startHardware();
 
     private:
         void updateLegPositions(leg legID, servoType servo, uint8_t angle);

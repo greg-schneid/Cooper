@@ -19,22 +19,25 @@ const bool DUMP_CONTROLLER_INFO = false;
 // Function prototypes (optional but good practice)
 void setupBluetooth();
 
-void setup();
-void loop();
-
 // The setup function runs once when the device is powered on or reset
 void setup() {
     Serial.begin(115200);
+    Serial.println("Starting boot sequence");
     setupBluetooth();
+    Serial.println("Finished Setting up bluetooth. Starting Hardware");
+    robot.startHardware();
+    Serial.println("Succesfully Started Hardware");
 }
 
 // The loop function runs continuously after setup
 void loop() {
     //Getting New Data from bluetooth controller
     bool dataUpdated = BP32.update();
-    if(dataUpdated)
+    if(dataUpdated){
         controller.update();
         robot.update();
+    }
+        
     delay(150);
 }
 

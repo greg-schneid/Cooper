@@ -7,7 +7,14 @@ Robot::Robot(short (&stickPositions)[4], bool (&buttons)[4])
     rightRear(rightRearPins, pwm),
     leftFront(leftFrontPins, pwm),
     rightFront(rightFrontPins, pwm)
-{
+{}
+
+Robot::~Robot(){
+    direction = nullptr;
+    controllerButtons = nullptr;
+}
+
+void Robot::startHardware(){
     Serial.println("Initializing PCA9685 Servo Controller...");
 
     // Initialize I2C communication with custom SDA and SCL pins
@@ -23,23 +30,20 @@ Robot::Robot(short (&stickPositions)[4], bool (&buttons)[4])
     delay(10);
 }
 
-Robot::~Robot(){
-    direction = nullptr;
-    controllerButtons = nullptr;
-}
-
 void Robot::update(){
     
     //short* direction;
     //bool* controllerButtons;
 
-    //Angle Calculation Outlined here: https://www.desmos.com/calculator/tbmkiml4pm
+    //Angle Calculation Outlined here:https://www.desmos.com/calculator/bx7bn4pkjo
     uint8_t angle = 90;
 
     if(direction[0]!=0){
         angle = static_cast<uint8_t>(round(atan(max(direction[1],static_cast<short>(0))/abs(direction[0])) * (180/PI)));
     }
-    updateLegPositions(left_front, abductor, angle);
+    Serial.println("Updating leg position to: ");
+    Serial.print(angle);
+    //updateLegPositions(left_front, abductor, angle);
 }
 
 void Robot::updateLegPositions(leg legID, servoType servo, uint8_t angle){

@@ -4,7 +4,8 @@ BluetoothController::BluetoothController(){};
 
 //Callback for when a new controller is connected
 void BluetoothController::connect(ControllerPtr ctl){
-    if(!myController){
+    Serial.println("Calling Connect function");
+    if(myController){
         Serial.println("Already Connected to Controller");
         return;
     }
@@ -36,28 +37,17 @@ bool BluetoothController::isConnected(){
 
 void BluetoothController::dumpInfo(){
     Serial.printf(
-        "idx=%d, dpad: 0x%02x, buttons: 0x%04x, axis L: %4d, %4d, axis R: %4d, %4d, brake: %4d, throttle: %4d, "
-        "misc: 0x%02x, gyro x:%6d y:%6d z:%6d, accel x:%6d y:%6d z:%6d\n",
-        myController->index(),        // Controller Index
-        myController->dpad(),         // D-pad
-        myController->buttons(),      // bitmask of pressed buttons
-        myController->axisX(),        // (-511 - 512) left X Axis
-        myController->axisY(),        // (-511 - 512) left Y axis
-        myController->axisRX(),       // (-511 - 512) right X axis
-        myController->axisRY(),       // (-511 - 512) right Y axis
-        myController->brake(),        // (0 - 1023): brake button
-        myController->throttle(),     // (0 - 1023): throttle (AKA gas) button
-        myController->miscButtons(),  // bitmask of pressed "misc" buttons
-        myController->gyroX(),        // Gyro X
-        myController->gyroY(),        // Gyro Y
-        myController->gyroZ(),        // Gyro Z
-        myController->accelX(),       // Accelerometer X
-        myController->accelY(),       // Accelerometer Y
-        myController->accelZ()        // Accelerometer Z
+    "Buttons: X=%d, Circle=%d, Square=%d, Triangle=%d | Stick Positions: AxisX=%d, AxisY=%d, AxisRX=%d, AxisRY=%d\n",
+    buttons[0], buttons[1], buttons[2], buttons[3], 
+    controllerStickPositions[0], controllerStickPositions[1], 
+    controllerStickPositions[2], controllerStickPositions[3]
     );
 }
 
 void BluetoothController::update(){
+    if (!myController || !myController->isConnected()) {
+        return;
+    }
     buttons[0] = myController->a(); //X
     buttons[1] = myController->b(); //Circle
     buttons[2] = myController->x(); //Square

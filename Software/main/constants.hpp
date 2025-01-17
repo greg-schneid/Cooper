@@ -14,8 +14,8 @@ enum leg{
 
 enum servoType{
     abductor = 0,
-    hip = 1,
-    knee = 2
+    upper_leg = 1,
+    lower_leg = 2
 };
 
 #endif //CONSTANTS_H
