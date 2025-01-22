@@ -36,19 +36,25 @@ void Robot::update(){
     //bool* controllerButtons;
 
     //Angle Calculation Outlined here:https://www.desmos.com/calculator/bx7bn4pkjo
-    uint8_t angle = 90;
-
-    if(direction[0]!=0){
-        angle = static_cast<uint8_t>(round(atan(max(direction[1],static_cast<short>(0))/abs(direction[0])) * (180/PI)));
+    if(abs(direction[0]) < 20 && abs(direction[1]) < 20){
+      Serial.println("Within Deadzone. Not updating leg angles");
+      return;
     }
-    Serial.println("Updating leg position to: ");
-    Serial.print(angle);
-    //updateLegPositions(left_front, abductor, angle);
+    
+    Serial.println("Calculating New Angle");
+    float angle = atan(fmax(-1*direction[1],0)/fabs(direction[0]))*(180.0/M_PI);
+    if(direction[0]>0){
+      angle += 90;
+    }
+
+    Serial.printf("Updating leg position to: %.2f\n", angle);
+    updateLegPositions(left_front, abductor, angle);
 }
 
-void Robot::updateLegPositions(leg legID, servoType servo, uint8_t angle){
+void Robot::updateLegPositions(leg legID, servoType servo, float angle){
     switch(legID){
         case left_front:
+            Serial.printf("Updating Left Front Servo. Servo: %d\n", servo);
             leftFront.setServoAngle(servo, angle);
             break;
         case left_rear:
@@ -62,7 +68,7 @@ void Robot::updateLegPositions(leg legID, servoType servo, uint8_t angle){
             break;
         default:
             //Invalid Leg ID
-            Serial.println("Invalid Leg ID");
+            Serial.printf("Invalid Leg ID %d\n", static_cast<int>(legID));
             break;
     }
 }

@@ -5,6 +5,7 @@
 #include <Adafruit_PWMServoDriver.h>
 #include <cstdint>
 #include <stdint.h>
+#include <Arduino.h>
 
 #include "constants.hpp"
 
@@ -15,7 +16,7 @@
 class Leg{
     public: 
         Leg(const uint8_t servo[3], Adafruit_PWMServoDriver &pwmDriver);
-        void setServoAngle(servoType servo, uint8_t angle);
+        void setServoAngle(servoType servo, float angle);
         
     private:
         const uint8_t servoPins[3];

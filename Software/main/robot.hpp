@@ -12,10 +12,10 @@
 #include "leg.hpp"
 #include "constants.hpp"
 
-const uint8_t leftRearPins[3]  = {0, 1, 2};
-const uint8_t rightRearPins[3] = {3, 4, 5};
-const uint8_t leftFrontPins[3] = {6, 7, 8};
-const uint8_t rightFrontPins[3] = {9, 10, 11};
+const uint8_t leftFrontPins[3] = {0, 1, 2};
+const uint8_t rightFrontPins[3] = {3, 4, 5};
+const uint8_t leftRearPins[3]  = {6, 7, 8};
+const uint8_t rightRearPins[3] = {9, 10, 11};
 
 class Robot{
     public:
@@ -25,7 +25,7 @@ class Robot{
         void startHardware();
 
     private:
-        void updateLegPositions(leg legID, servoType servo, uint8_t angle);
+        void updateLegPositions(leg legID, servoType servo, float angle);
 
         Leg leftRear; //ID: 0
         Leg rightRear; //ID: 1
