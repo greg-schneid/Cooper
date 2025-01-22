@@ -21,8 +21,7 @@ void setupBluetooth();
 
 // The setup function runs once when the device is powered on or reset
 void setup() {
-    //Serial.begin(115200);
-    Serial.begin(9600);
+    Serial.begin(115200);
     Serial.println("Starting boot sequence");
     setupBluetooth();
     Serial.println("Finished Setting up bluetooth. Starting Hardware");

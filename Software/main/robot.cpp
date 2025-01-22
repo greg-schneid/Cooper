@@ -35,16 +35,18 @@ void Robot::update(){
     //short* direction;
     //bool* controllerButtons;
 
-    //Angle Calculation Outlined here:https://www.desmos.com/calculator/bx7bn4pkjo
+    //Angle Calculation Outlined here:https://www.desmos.com/calculator/qm5yl6s7jk
     if(abs(direction[0]) < 20 && abs(direction[1]) < 20){
       Serial.println("Within Deadzone. Not updating leg angles");
       return;
     }
     
     Serial.println("Calculating New Angle");
-    float angle = atan(fmax(-1*direction[1],0)/fabs(direction[0]))*(180.0/M_PI);
-    if(direction[0]>0){
-      angle += 90;
+    float x = static_cast<float>(direction[0]);
+    float y = -1* static_cast<float>(direction[1]);
+    float angle = 90;
+    if(x!=0){
+      angle = fabs(atan2(x,fmax(y,0.0))*180/M_PI -90);
     }
 
     Serial.printf("Updating leg position to: %.2f\n", angle);

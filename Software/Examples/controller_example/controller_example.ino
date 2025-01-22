@@ -1,4 +1,6 @@
 #include <Bluepad32.h>
+#include <math.h>
+#include <Arduino.h>
 
 ControllerPtr myControllers[BP32_MAX_GAMEPADS];
 
@@ -62,6 +64,20 @@ void dumpGamepad(ControllerPtr ctl) {
         ctl->accelY(),       // Accelerometer Y
         ctl->accelZ()        // Accelerometer Z
     );
+}
+
+void dumpGamePadAngle(ControllerPtr ctl){
+    //float angle = atan(fmax(-1*ctl->axisX(),0)/fabs(ctl->axisY()))*(180.0/M_PI);
+    float x = ctl->axisX();
+    float y = -1* ctl->axisY();
+
+    float angle = 90 + atan2(x,fmax(y,0.0))*180/M_PI;
+
+    if(abs(ctl->axisX())<20 && abs(ctl->axisY()<20)){
+        Serial.printf("Within deadzone (Angle: %.2f degrees). Not updating Angle. X-Axis: %.1f | Y-Axis: %.1f\n", angle, x, y);
+        return;
+    }
+    Serial.printf("Angle is %.2f degrees. X-Axis: %.1f | Y-Axis: %.1f\n", angle, x, y);
 }
 
 void dumpMouse(ControllerPtr ctl) {
@@ -229,7 +245,8 @@ void processControllers() {
     for (auto myController : myControllers) {
         if (myController && myController->isConnected() && myController->hasData()) {
             if (myController->isGamepad()) {
-                processGamepad(myController);
+                //processGamepad(myController);
+                dumpGamePadAngle(myController);
             } else if (myController->isMouse()) {
                 processMouse(myController);
             } else if (myController->isKeyboard()) {
