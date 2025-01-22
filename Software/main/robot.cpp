@@ -31,32 +31,42 @@ void Robot::startHardware(){
 }
 
 void Robot::update(){
-    
-    //short* direction;
-    //bool* controllerButtons;
-
     //Angle Calculation Outlined here:https://www.desmos.com/calculator/qm5yl6s7jk
-    if(abs(direction[0]) < 20 && abs(direction[1]) < 20){
-      Serial.println("Within Deadzone. Not updating leg angles");
-      return;
-    }
-    
-    Serial.println("Calculating New Angle");
+
+    //Abductor
     float x = static_cast<float>(direction[0]);
     float y = -1* static_cast<float>(direction[1]);
     float angle = 90;
     if(x!=0){
       angle = fabs(atan2(x,fmax(y,0.0))*180/M_PI -90);
     }
+     if(abs(x) < 20 && abs(y) < 20){
+      Serial.printf("Within deadzone (Angle: %.2f degrees). Not updating Angle. X-Axis: %.1f | Y-Axis: %.1f\n", angle, x, y);
+      return;
+    }
 
-    Serial.printf("Updating leg position to: %.2f\n", angle);
+    Serial.printf("Angle is %.2f degrees. X-Axis: %.1f | Y-Axis: %.1f\n", angle, x, y);
     updateLegPositions(left_front, abductor, angle);
+
+    //Upper Leg
+    float ux = static_cast<float>(direction[2]);
+    float uy = -1* static_cast<float>(direction[3]);
+    float uangle = 90;
+    if(x!=0){
+      uangle = fabs(atan2(ux,fmax(uy,0.0))*180/M_PI -90);
+    }
+     if(abs(ux) < 20 && abs(uy) < 20){
+      //Serial.printf("Within deadzone (Angle: %.2f degrees). Not updating Angle. X-Axis: %.1f | Y-Axis: %.1f\n", angle, x, y);
+      return;
+    }
+
+    //Serial.printf("Angle is %.2f degrees. X-Axis: %.1f | Y-Axis: %.1f\n", angle, x, y);
+    updateLegPositions(left_front, upper_leg, uangle);
 }
 
 void Robot::updateLegPositions(leg legID, servoType servo, float angle){
     switch(legID){
         case left_front:
-            Serial.printf("Updating Left Front Servo. Servo: %d\n", servo);
             leftFront.setServoAngle(servo, angle);
             break;
         case left_rear:
