@@ -9,11 +9,10 @@
 
 #include "constants.hpp"
 
-//Specs for leg: https://www.gxservo.com/en/pd.jsp?id=16
-
 // Define minimum and maximum pulse lengths
-#define SERVOMIN 150 // Minimum pulse length count (out of 4096)
-#define SERVOMAX  600 // Maximum pulse length count (out of 4096)
+#define SERVOMIN 500 // Minimum pulse length in microseconds)
+#define SERVOMAX  4096 // Maximum pulse length in microseconds)
+const float pulse_width_per_degree = SERVOMIN + (SERVOMAX - SERVOMIN)/180;
 
 class Leg{
     public: 
